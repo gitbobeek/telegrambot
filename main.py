@@ -1,19 +1,20 @@
 import asyncio
 from aiogram import Bot, Dispatcher
+from app.handlers import RouterHandler
+from config import TOKEN
 
-from app.handlers import router
-from __token import TOKEN
+class HoroscopeBot:
+    def __init__(self, token: str):
+        self.bot = Bot(token=TOKEN)
+        self.dp = Dispatcher()
+        self.router_handler = RouterHandler(self.dp)
 
-async def main():
-    bot = Bot(token=TOKEN)
-    dp = Dispatcher()
-    dp.include_router(router)
-    
-    await dp.start_polling(bot)
-
+    async def start(self):
+        await self.dp.start_polling(self.bot)
 
 if __name__ == '__main__':
     try:
-        asyncio.run(main())
+        bot = HoroscopeBot(token=TOKEN)
+        asyncio.run(bot.start())
     except KeyboardInterrupt:
         print('Бот выключен')
