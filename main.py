@@ -3,6 +3,7 @@ from aiogram import Bot, Dispatcher
 from app.handlers import RouterHandler
 from config import TOKEN
 
+
 class HoroscopeBot:
     def __init__(self, token: str):
         self.bot = Bot(token=TOKEN)
@@ -11,6 +12,7 @@ class HoroscopeBot:
 
     async def start(self):
         await self.dp.start_polling(self.bot)
+
 
 if __name__ == '__main__':
     try:
