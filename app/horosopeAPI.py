@@ -13,4 +13,4 @@ class HoroscopeAPI:
         
         soup = BeautifulSoup(res.content, 'html.parser')
         data = soup.find('div', attrs={'class': 'main-horoscope'})
-        return data.p.text if data else "Гороскоп не найден."
+        return data.p.text if data else "Horoscope is not found."

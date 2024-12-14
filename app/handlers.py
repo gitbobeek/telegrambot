@@ -16,22 +16,26 @@ class RouterHandler:
     def start_handlers(self):
         @self.router.message(CommandStart())
         async def cmd_start(message: Message):
-            await message.answer('Добро пожаловать в наш мир гороскопов.',
+            await message.answer('Welcome to !',
                                  reply_markup=kb.main)
+            
+        @self.router.message(F.text == "What's my sign?")
+        async def msg_show_signs(message: Message):
+            await message.answer(HoroscopeService.show_signs())
 
-        @self.router.message(Command('help'))
-        async def cmd_help(message: Message):
-            await message.answer('Здравствуйте! Вы обратились к /help')
+        # @self.router.message(Command('help'))
+        # async def cmd_help(message: Message):
+        #     await message.answer('Здравствуйте! Вы обратились к /help')
 
-        @self.router.message(F.text == 'Узнать гороскоп')
+        @self.router.message(F.text == 'Get my horoscope')
         async def msg_send_sign_pls(message: Message):
-            await message.answer('Укажите знак зодиака',
+            await message.answer('Pick your sign',
                                  reply_markup=kb.zodiac_keyboard)
 
         @self.router.callback_query(F.data.in_(ZODIAC_SIGNS.keys()))
         async def set_zodiac_sign(callback: CallbackQuery):
             self.current_service = HoroscopeService(callback.data)
-            await callback.message.answer('Thank you @ Now let me know, for what day',
+            await callback.message.answer('Thank you. Now let me know, for what day do u want to see horoscope',
                                           reply_markup=kb.date_choose)
 
         @self.router.callback_query(F.data.in_({'today', 'tomorrow'}))
